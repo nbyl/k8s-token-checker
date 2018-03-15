@@ -17,7 +17,7 @@ public class CheckerResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckerResource.class);
 
-    private static final String CA_CRT_PATH = "";
+    private static final String CA_CRT_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt";
 
     @RequestMapping("/")
     public CheckResult[] checkToken() {
