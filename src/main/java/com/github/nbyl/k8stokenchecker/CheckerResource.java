@@ -18,16 +18,21 @@ public class CheckerResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckerResource.class);
 
     private static final String CA_CRT_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt";
+    private static final String SERVICE_CA_CRT_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt";
+
 
     @RequestMapping("/")
     public CheckResult[] checkToken() {
-        CheckResult[] results = {checkCAFile()};
+        CheckResult[] results = {
+                checkCAFile(CA_CRT_PATH),
+                checkCAFile(SERVICE_CA_CRT_PATH)
+        };
         return results;
     }
 
-    private CheckResult checkCAFile() {
+    private static CheckResult checkCAFile(String path) {
         try {
-            try (InputStream pemInputStream = new FileInputStream(CA_CRT_PATH)) {
+            try (InputStream pemInputStream = new FileInputStream(path)) {
                 CertificateFactory certFactory = CertificateFactory.getInstance("X509");
                 X509Certificate cert = (X509Certificate) certFactory.generateCertificate(pemInputStream);
             }
