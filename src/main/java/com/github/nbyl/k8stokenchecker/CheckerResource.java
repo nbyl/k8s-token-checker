@@ -37,10 +37,10 @@ public class CheckerResource {
                 X509Certificate cert = (X509Certificate) certFactory.generateCertificate(pemInputStream);
             }
 
-            return new CheckResult(CA_CRT_PATH);
+            return new CheckResult(path);
         } catch (CertificateException | IOException e) {
             LOGGER.debug("Error checking ca.crt", e);
-            return new CheckResult(false, CA_CRT_PATH, org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace(e));
+            return new CheckResult(false, path, org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace(e));
         }
     }
 }
