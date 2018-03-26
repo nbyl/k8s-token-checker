@@ -1,5 +1,6 @@
 package com.github.nbyl.k8stokenchecker;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
@@ -63,7 +64,9 @@ public class CheckerResource {
     }
 
     private static Config createDefaultConfig() throws IOException {
-        return new ConfigBuilder().withNamespace(getNamespace()).build();
+        Config config = new ConfigBuilder().withNamespace(getNamespace()).build();
+        LOGGER.info("Using configuration for kubernetes client: {}", new ObjectMapper().writeValueAsString(config));
+        return config;
     }
 
     private static String getNamespace() throws IOException {
